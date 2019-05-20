@@ -1,0 +1,46 @@
+body {
+    color: black;
+    background-color: white;
+}
+
+table {
+    font-family: verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+th {
+    background-color: #A0E0A0;
+    text-align: center;
+    padding: 6px 8px;
+}
+
+td {
+    background-color: #E8E8E8;
+    padding: 6px 8px;
+}
+
+form {
+    margin: 0;
+}
+
+button {
+    background-color: #A0E0A0;
+    border-radius: 0;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.block {
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #A0E0A0;
+}
+
+.tabs {
+    
+}
+
+.tabs .tab-active {
+    background-color: #E8E8E8;
+}

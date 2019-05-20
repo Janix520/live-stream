@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/head::head"></head>
+<body>
+    <p th:include="common/nav::nav"></p>
+
+    <div>
+        <p>stream info</p>
+        <div>
+        </div>
+        <div>
+            <form th:action="@{/stream/add}" method="post">
+            <input type="text" name="key" placeholder="key" value="h75" required="required" />
+            <input type="text" name="_addr" placeholder="source rtsp addr" value="rtsp://admin:a00000000@192.168.1.75:554/h264/ch3/main/av_stream" required="required" style="width:500px;" />
+            <input type="text" name="addr_" placeholder="target rtmp addr" value="rtmp://192.168.1.199:10005/hls/h75" required="required" style="width:300px;" />
+            <button type="submit">submit</button>
+            </form>
+        </div>
+        <table>
+            <tr>
+                <th>stream key</th>
+                <th>grabber.started</th>
+                <th>pusher.started</th>
+                <th>recorders.key</th>
+                <th>live</th>
+                <th>delete</th>
+            </tr>
+            <tr th:each="stream : ${streamInfo.streams}">
+                <td th:text="${stream.key}"></td>
+                <td>
+                    <div th:text="${stream._addr}"></div>
+                    <div>
+                        <form th:action="@{/stream/grabber}" method="post">
+                        <span th:text="${stream.grabber.started}"></span>
+                        <input type="hidden" name="key" th:value="${stream.key}" />
+                        <input type="hidden" name="op" th:value="${stream.grabber.started} ? 'stop' : 'start'" />
+                        <button type="submit" th:text="${stream.grabber.started} ? 'stop' : 'start'"></button>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <div th:text="${stream.addr_}"></div>
+                    <div th:text="${stream.http}"></div>
+                    <div>
+                        <form th:action="@{/stream/pusher}" method="post">
+                        <span th:text="${stream.pusher.started}"></span>
+                        <input type="hidden" name="key" th:value="${stream.key}" />
+                        <input type="hidden" name="op" th:value="${stream.pusher.started} ? 'stop' : 'start'" />
+                        <button type="submit" th:text="${stream.pusher.started} ? 'stop' : 'start'"></button>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <form th:action="@{/stream/recorder/add}" method="post">
+                        <input type="hidden" name="key" th:value="${stream.key}" />
+                        <input type="text" name="rkey" placeholder="recorder key" required="required" />
+                        <button type="submit">submit</button>
+                        </form>
+                    </div>
+                    <div th:each="recorder : ${stream.recorders}">
+                        <form th:action="@{/stream/recorder/del}" method="post">
+                        <span th:text="${recorder.key}"></span>
+                        <span th:text="${recorder.startTime}"></span>
+                        <input type="hidden" name="key" th:value="${stream.key}" />
+                        <input type="hidden" name="rkey" th:value="${recorder.key}" />
+                        <button type="submit">X</button>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <video th:id="'player-stream-' + ${stream.key}" class="video-js" controls="controls" preload="auto" autoplay="autoplay" width="320" height="180" data-setup="{}">
+                            <source th:src="${stream.http}" />
+                        </video>
+                    </div>
+                </td>
+                <td>
+                    <form th:action="@{/stream/del}" method="post">
+                    <input type="hidden" name="key" th:value="${stream.key}"/>
+                    <button type="submit">X</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

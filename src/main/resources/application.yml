@@ -1,0 +1,45 @@
+server:
+  port: 10013
+  servlet:
+    context-path: /live-stream
+  undertow:
+    direct-buffers: true
+    max-http-post-size: -1B
+  ssl:
+    enabled: false
+
+spring:
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:conf/ehcache.xml
+    cache-names:
+      - schedulers
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0B
+      max-file-size: 100MB
+      max-request-size: 100MB
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    encoding: UTF-8
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .htm
+    cache: false
+    mode: HTML
+    servlet:
+      content-type: text/html; charset=utf-8
+  jackson:
+    date-format: 'yyyy-MM-dd HH:mm:ss'
+
+logging:
+  path: log
+  file: log/live-stream.log
+  level:
+    root: INFO

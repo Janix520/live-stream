@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="pagination" class="pagination">
+    <form th:action="@{${pagination.action}}">
+    <a th:href="@{${pagination.action} + '&page=' + ${pagination.first}}">first</a>
+    <a th:href="@{${pagination.action} + '&page=' + ${pagination.pre}}">pre</a>
+    <span th:text="' - ' + ${pagination.page} + ' - '"></span>
+    <a th:href="@{${pagination.action} + '&page=' + ${pagination.next}}">next</a>
+    <a th:href="@{${pagination.action} + '&page=' + ${pagination.last}}">last</a>
+    <span th:text="${pagination.pages} + 'pages'"></span>
+    <select th:field="${pagination.pageSize}" name="pageSize">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+    </select>
+    <input type="text" name="page" placeholder="toPage">
+    </form>
+</div>
+</html>
